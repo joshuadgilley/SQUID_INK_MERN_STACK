@@ -1,6 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
+import { useHistory } from "react-router-dom";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
@@ -66,5 +67,6 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 };
+
 
 

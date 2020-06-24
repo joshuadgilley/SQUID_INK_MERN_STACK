@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
@@ -13,7 +14,12 @@ class Dashboard extends Component {
 
   };
 
-
+   routeChange=()=> {
+    let path = `/upload`;
+    //let history = useHistory();
+   // history.push(path);
+  }
+ 
 
 
   render() {
@@ -38,7 +44,7 @@ class Dashboard extends Component {
                 letterSpacing: "1.5px",
                 marginTop: "1rem"
               }}
-              onClick={this.onLogoutClick}
+             // onClick={this.onLogoutClick}
               className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               SQUID
@@ -52,7 +58,7 @@ class Dashboard extends Component {
                 letterSpacing: "1.5px",
                 marginTop: "1rem"
               }}
-              onClick={this.nextPath('../../components/upload')}
+              onClick={this.routeChange}
               className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               Files
