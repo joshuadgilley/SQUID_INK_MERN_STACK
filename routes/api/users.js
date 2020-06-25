@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
+const multer = require("multer");
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -107,6 +108,51 @@ router.post("/login", (req, res) => {
 });
 
 
+const Upload = require("../../models/Upload.js");
+
+router.post("/uploads", (req, res) => {
+
+  return res.send("Upload backend");
+
+});
+
+
+const storage = multer.diskStorage({
+  destination: "./public/",
+  filename: function(req, file, cb){
+     cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000},
+}).single("myfile");
+
+const obj =(req,res) => {
+  
+  upload(req, res, () => {
+     console.log("Request ---", req.body);
+     console.log("Request file ---", req.file);//Here you get file.
+     const file = new File();
+     file.meta_data = req.file;
+     file.save().then(()=>{
+     res.send({message:"uploaded successfully"})
+     console.log("SAVED!"); 
+     })
+     /*Now do where ever you want to do*/
+  });
+}
+
+router.post("/uploads", obj);
+
+router.get("/uploads", (req, res) => {
+
+ // return res.send(obj);
+
+ return res.send("hellooo");
+
+});
 
 
 module.exports = router;

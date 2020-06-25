@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -14,6 +14,8 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Upload from "./components/upload/Upload";
+import Squid from "./components/squid/Squid";
+import MyFiles from "./components/myfiles/MyFiles";
 
 import "./App.css";
 
@@ -35,7 +37,7 @@ if (localStorage.jwtToken) {
     // Redirect to login
     window.location.href = "./login";
 
-    //<PrivateRoute exact path="/upload" component={Upload} />
+    
   }
 }
 class App extends Component {
@@ -44,14 +46,21 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
+        
             <Navbar />
-            <Route exact path="/" component={Landing} />
+           
+            
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <PrivateRoute exact path="/upload" component={Upload} />
+            <Route exact path="/" component={withRouter(Landing)} />
             <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/dashboard" component={withRouter(Dashboard)} />
+              <PrivateRoute exact path="/upload" component={withRouter(Upload)} />
+              <PrivateRoute exact path="/squid" component={Squid} />
+              <PrivateRoute exact path="/myfiles" component={withRouter(MyFiles)} />
             </Switch>
+
+           
           </div>
         </Router>
       </Provider>

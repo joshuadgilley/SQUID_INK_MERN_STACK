@@ -2,8 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const multer = require("multer");
+const crypto = require("crypto");
+const path = require("path");
+const router = express.Router();
 
 const users = require("./routes/api/users");
+const uploads = require("./routes/api/uploads");
 
 const app = express();
 
@@ -22,7 +27,8 @@ const db = require("./config/keys").mongoURI;
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true,
+      useUnifiedTopology: true}
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
@@ -35,6 +41,9 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+
+app.use("/api/uploads", uploads);
+
 
 const port = process.env.PORT || 5000;
 

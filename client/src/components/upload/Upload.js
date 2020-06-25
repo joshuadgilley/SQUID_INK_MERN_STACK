@@ -5,20 +5,43 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { useHistory } from "react-router-dom";
+import LinkButton from "../../actions/authActions";
+import axios from 'axios';
 
 
 
-class Upload extends Component {
+
+class Upload extends React.Component {
 
 
-   routeChange=()=> {
-    //let path = `/`;
-    //let history = useHistory();
-    //history.push(path);
-  };
- 
+  constructor(props) {
+    super(props);
+    this.state ={
+        file: null
+    };
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+}
+onFormSubmit(e){
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('myfile',this.state.file);
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    axios.post("http://localhost:5000/api/uploads",formData,config)
+        .then((response) => {
+            alert("The file is successfully uploaded");
+            console.log("uploaded"); 
+        }).catch((error) => {
+    });
+}
 
-
+onChange(e) {
+    this.setState({file:e.target.files});
+}
   render() {
 
     
@@ -30,42 +53,24 @@ class Upload extends Component {
           <div className="landing-copy col s12 center-align">
             <h4>
               <p className="flow-text grey-text text-darken-1">
-                My files
+                Upload files to server
               </p>
             </h4>
 
-            
+            <div className="container">
+                <div className="row">
+                    <form>
+                        <div className="form-group">
+                            <input type="file" className="custom-file-input" name="myImage" onChange= {this.onChange}/>
+                            {console.log(this.state.file)}
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-small waves-effect waves-light hoverable blue accent-3" type="submit">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-
-
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem"
-              }}
-             // onClick={this.routeChange}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Upload
-            </button>
-
-
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem"
-              }}
-              onClick={this.routeChange}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Dashboard
-            </button>
-
-   
           </div>
         </div>
       </div>
@@ -82,5 +87,5 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { }
-)(Upload);
+)  (Upload);
 
