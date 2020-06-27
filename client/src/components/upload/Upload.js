@@ -3,10 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
-import { useHistory } from "react-router-dom";
-import LinkButton from "../../actions/authActions";
 import axios from 'axios';
+
 
 
 
@@ -26,6 +24,7 @@ onFormSubmit(e){
     e.preventDefault();
     const formData = new FormData();
     formData.append('myfile',this.state.file);
+    console.log('myfile',this.state.file)
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -60,13 +59,11 @@ onChange(e) {
             <div className="container">
                 <div className="row">
                     <form>
-                        <div className="form-group">
-                            <input type="file" className="custom-file-input" name="myImage" onChange= {this.onChange}/>
-                            {console.log(this.state.file)}
-                        </div>
-                        <div className="form-group">
-                            <button className="btn btn-small waves-effect waves-light hoverable blue accent-3" type="submit">Upload</button>
-                        </div>
+
+                    <input type="file" name="file" id="file" required />
+                    <br/><br/>
+                    <input type="submit" />
+   
                     </form>
                 </div>
             </div>
@@ -81,7 +78,8 @@ onChange(e) {
 
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+ 
 });
 
 export default connect(

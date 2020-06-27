@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const uploadSchema = new Schema({
@@ -8,4 +8,4 @@ const uploadSchema = new Schema({
 
 
 
-module.exports = Upload = mongoose.model("upload",uploadSchema);
+module.exports = Upload = mongoose.model("uploads",uploadSchema); 

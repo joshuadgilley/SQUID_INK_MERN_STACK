@@ -6,11 +6,27 @@ const multer = require("multer");
 const crypto = require("crypto");
 const path = require("path");
 const router = express.Router();
-
 const users = require("./routes/api/users");
-const uploads = require("./routes/api/uploads");
+const { mongo, connection } = require('mongoose');
+const Grid = require('gridfs-stream');
+const GridFsStorage = require('multer-gridfs-storage');
+Grid.mongo = mongo;
+const mongoDriver = mongoose.mongo;
+
 
 const app = express();
+
+
+
+//CORS
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000", "http://localhost:5000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
+});
+
 
 // Bodyparser middleware
 app.use(
@@ -24,14 +40,17 @@ app.use(bodyParser.json());
 const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
-mongoose
+const conn = mongoose
   .connect(
     db,
     { useNewUrlParser: true,
-      useUnifiedTopology: true}
+      useUnifiedTopology: true }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
+
+
+
 
 // Passport middleware
 app.use(passport.initialize());
@@ -39,10 +58,13 @@ app.use(passport.initialize());
 // Passport config
 require("./config/passport")(passport);
 
-// Routes
+
+//API routes
+// URLs for testing on postman 
+// http://localhost:5000/api/users/upload
+// http://localhost:5000/api/users/login
 app.use("/api/users", users);
 
-app.use("/api/uploads", uploads);
 
 
 const port = process.env.PORT || 5000;

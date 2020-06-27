@@ -5,6 +5,14 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 const multer = require("multer");
+const mongoose  = require("mongoose");
+var conn = mongoose.connection;
+const { mongo, connection } = require('mongoose');
+const Grid = require('gridfs-stream');
+const GridFsStorage = require('multer-gridfs-storage');
+Grid.mongo = mongo;
+const mongoDriver = mongoose.mongo;
+
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -12,6 +20,9 @@ const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
+
+//Load Upload model
+const Upload = require("../../models/Upload");
 
 // @route POST api/users/register
 // @desc Register user
@@ -84,7 +95,7 @@ router.post("/login", (req, res) => {
           name: user.name
         };
 
-        // Sign token
+        // get token
         jwt.sign(
           payload,
           keys.secretOrKey,
@@ -101,57 +112,141 @@ router.post("/login", (req, res) => {
       } else {
         return res
           .status(400)
-          .json({ passwordincorrect: "Password incorrect" });
+          .json({ passwordincorrect: "Password is incorrect" });
       }
     });
   });
 });
 
 
-const Upload = require("../../models/Upload.js");
 
-router.post("/uploads", (req, res) => {
-
-  return res.send("Upload backend");
-
-});
+const db = require("../../config/keys").mongoURI;
 
 
-const storage = multer.diskStorage({
-  destination: "./public/",
-  filename: function(req, file, cb){
-     cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+const gfs = new Grid("upload_db", mongoDriver);
+
+
+
+//gfs.collection('uploads');
+
+//file storage and gridFS 
+const storage = new GridFsStorage({
+  url: db,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
   }
 });
 
-const upload = multer({
-  storage: storage,
-  limits:{fileSize: 1000000},
-}).single("myfile");
+const upload = multer({ storage });
 
-const obj =(req,res) => {
-  
-  upload(req, res, () => {
-     console.log("Request ---", req.body);
-     console.log("Request file ---", req.file);//Here you get file.
-     const file = new File();
-     file.meta_data = req.file;
-     file.save().then(()=>{
-     res.send({message:"uploaded successfully"})
-     console.log("SAVED!"); 
-     })
-     /*Now do where ever you want to do*/
+
+
+// testing route for http://localhost:5000/api/users/upload
+router.get("/upload", (req, res) => {
+    gfs.files.find().toArray((err, files) => {
+      // Check for files
+      if (!files || files.length === 0) {
+        res.render('index', { files: false });
+      } else {
+        files.map(file => {
+          if (
+            file.contentType === 'image/jpeg' ||
+            file.contentType === 'image/png'
+          ) {
+            file.isImage = true;
+          } else {
+            file.isImage = false;
+          }
+        });
+        res.render('index', { files: files });
+      }
+    });
+});
+
+
+router.post('/upload', upload.single('file'), (req, res) => {
+  // res.json({ file: req.file });
+  res.redirect('/');
+});
+
+// @route GET http://localhost:5000/api/users/files
+// @desc  Display all files in JSON
+router.get('/files', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: 'No files exist'
+      });
+    }
+
+    // Files exist
+    return res.json(files);
   });
-}
+});
 
-router.post("/uploads", obj);
 
-router.get("/uploads", (req, res) => {
+// @route GET http://localhost:5000/api/users/files/:filename
+// @desc  Display single file object
+router.get('/files/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
+    // File exists
+    return res.json(file);
+  });
+});
 
- // return res.send(obj);
+// @route GET http://localhost:5000/api/users/image/:name
+// @desc Display Image
+router.get('/image/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // check to see if files exist 
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
 
- return res.send("hellooo");
+    // Check if image
+    if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: 'Not an image'
+      });
+    }
+  });
+});
 
+// @route DELETE /files/:id
+// @desc  Delete file
+router.delete('/files/:id', (req, res) => {
+  gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+
+    res.redirect('/');
+  });
 });
 
 
