@@ -1,3 +1,4 @@
+
 #  Dockerfile for Node Express Backend api (development)
 
 FROM node:10.16-alpine
@@ -17,6 +18,6 @@ RUN npm ci
 COPY . .
 
 # Exports
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["npm","start"]

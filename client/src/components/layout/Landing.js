@@ -8,7 +8,7 @@ class Landing extends Component {
         <div className="row">
           <div className="col s12 center-align">
             <h2>
-              This is a header 
+              Welcome 
             </h2>
             <br />
             <div className="col s6">
