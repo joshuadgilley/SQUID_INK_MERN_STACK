@@ -100,7 +100,7 @@ router.post("/login", (req, res) => {
           payload,
           keys.secretOrKey,
           {
-            expiresIn: 31556926 // 1 year in seconds
+            expiresIn: 31556926 // 1 year
           },
           (err, token) => {
             res.json({
@@ -185,7 +185,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
 // @desc  Display all files in JSON
 router.get('/files', (req, res) => {
   gfs.files.find().toArray((err, files) => {
-    // Check if files
+    // Check for files
     if (!files || files.length === 0) {
       return res.status(404).json({
         err: 'No files exist'
