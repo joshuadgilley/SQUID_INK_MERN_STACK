@@ -12,7 +12,7 @@ Go to https://www.mongodb.com/cloud/atlas and create an account.
 
 Choose "connect your application" 
 
-<img src="https://drive.google.com/file/d/11VVOtL8YR5S_mKelavV6Zp5DV_37zJfj/preview" width="640" height="480"></img>
+<img src="images/Screen Shot 2020-07-01 at 8.38.35 AM.png" width="640" height="480"></img>
 
 Copy the connection string shown
 <iframe src="https://drive.google.com/file/d/16PJJQwedVdpxHPSI0lWDFPloO-cepGDV/preview" width="640" height="480"></iframe>
