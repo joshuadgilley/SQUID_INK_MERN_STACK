@@ -12,11 +12,11 @@ Go to https://www.mongodb.com/cloud/atlas and create an account.
 
 Choose "connect your application" 
 <br>
-<img src="images/Screen Shot 2020-07-01 at 8.38.35 AM.png" width="640" height="480"></img>
+<img src="images/Screen Shot 2020-07-01 at 8.38.35 AM.png"></img>
 
 Copy the connection string shown
 <br>
-<img src="images/Screen Shot 2020-07-01 at 8.38.54 AM.png" width="640" height="480"></img>
+<img src="images/Screen Shot 2020-07-01 at 8.38.54 AM.png"></img>
 
 Paste the string into config>keys.js. Leave the secretOrKey variable as "secret" 
 <br>
