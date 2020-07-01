@@ -12,13 +12,13 @@ Go to https://www.mongodb.com/cloud/atlas and create an account.
 
 Choose "connect your application" 
 
-<img src="https://drive.google.com/file/d/11VVOtL8YR5S_mKelavV6Zp5DV_37zJfj/preview" width="640" height="480"></img>
+<img src="https://drive.google.com/file/d/11VVOtL8YR5S_mKelavV6Zp5DV_37zJfj/preview"></img>
 
 Copy the connection string shown
-<iframe src="https://drive.google.com/file/d/16PJJQwedVdpxHPSI0lWDFPloO-cepGDV/preview" width="640" height="480"></iframe>
+<img src="https://drive.google.com/file/d/16PJJQwedVdpxHPSI0lWDFPloO-cepGDV/preview"></img>
 
-Paste the string into config>keys.js. Leave the secretOrKey variable as "secret" 
-<iframe src="https://drive.google.com/file/d/1EnZ49jYDOJP2ayhoEM1h1hU1ePATIM_c/preview" width="640" height="480"></iframe>
+Paste the string into config > keys.js. Leave the secretOrKey variable as "secret" 
+<img src="https://drive.google.com/file/d/1EnZ49jYDOJP2ayhoEM1h1hU1ePATIM_c/preview"></img>
 
 Run client & server with concurrently
 npm run dev
