@@ -4,6 +4,21 @@ Install dependencies for server & client
 npm install nodemon 
 npm install && npm run client-install
 
+
+Connect cluster to application 
+
+MongoDB Atlas Configuration 
+Go to https://www.mongodb.com/cloud/atlas and create an account. 
+
+Choose "connect your application" 
+<iframe src="https://drive.google.com/file/d/11VVOtL8YR5S_mKelavV6Zp5DV_37zJfj/preview" width="640" height="480"></iframe>
+
+Copy the connection string shown
+<iframe src="https://drive.google.com/file/d/16PJJQwedVdpxHPSI0lWDFPloO-cepGDV/preview" width="640" height="480"></iframe>
+
+Paste the string into config>keys.js. Leave the secretOrKey variable as "secret" 
+<iframe src="https://drive.google.com/file/d/1EnZ49jYDOJP2ayhoEM1h1hU1ePATIM_c/preview" width="640" height="480"></iframe>
+
 Run client & server with concurrently
 npm run dev
 
