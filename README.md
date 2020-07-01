@@ -20,7 +20,7 @@ Copy the connection string shown
 
 Paste the string into config>keys.js. Leave the secretOrKey variable as "secret" 
 <br>
-<img src="images/Screen Shot 2020-07-01 at 8.41.05 AM.png" width="640" height="480"></img>
+<img src="images/Screen Shot 2020-07-01 at 8.41.05 AM.png"></img>
 
 Run client & server with concurrently
 npm run dev
