@@ -15,10 +15,10 @@ Choose "connect your application"
 <img src="images/Screen Shot 2020-07-01 at 8.38.35 AM.png" width="640" height="480"></img>
 
 Copy the connection string shown
-<iframe src="https://drive.google.com/file/d/16PJJQwedVdpxHPSI0lWDFPloO-cepGDV/preview" width="640" height="480"></iframe>
+<img src="images/Screen Shot 2020-07-01 at 8.38.54 AM.png" width="640" height="480"></img>
 
 Paste the string into config>keys.js. Leave the secretOrKey variable as "secret" 
-<iframe src="https://drive.google.com/file/d/1EnZ49jYDOJP2ayhoEM1h1hU1ePATIM_c/preview" width="640" height="480"></iframe>
+<img src="images/Screen Shot 2020-07-01 at 8.41.05 AM.png" width="640" height="480"></img>
 
 Run client & server with concurrently
 npm run dev
