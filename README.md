@@ -11,6 +11,7 @@ MongoDB Atlas Configuration
 Go to https://www.mongodb.com/cloud/atlas and create an account. 
 
 Choose "connect your application" 
+<<<<<<< HEAD
 
 <img src="https://drive.google.com/file/d/11VVOtL8YR5S_mKelavV6Zp5DV_37zJfj/preview"></img>
 
@@ -19,6 +20,18 @@ Copy the connection string shown
 
 Paste the string into config > keys.js. Leave the secretOrKey variable as "secret" 
 <img src="https://drive.google.com/file/d/1EnZ49jYDOJP2ayhoEM1h1hU1ePATIM_c/preview"></img>
+=======
+<br>
+<img src="images/Screen Shot 2020-07-01 at 8.38.35 AM.png"></img>
+
+Copy the connection string shown
+<br>
+<img src="images/Screen Shot 2020-07-01 at 8.38.54 AM.png"></img>
+
+Paste the string into config>keys.js. Leave the secretOrKey variable as "secret" 
+<br>
+<img src="images/Screen Shot 2020-07-01 at 8.41.05 AM.png"></img>
+>>>>>>> acc665ae836a9e5ed5b98fd77f19e479928bc891
 
 Run client & server with concurrently
 npm run dev
