@@ -12,7 +12,7 @@ Go to https://www.mongodb.com/cloud/atlas and create an account.
 
 Choose "connect your application" 
 
-<img src="https://raw.githubusercontent.com/cacab/upload_app_api/master/images/Screen%20Shot%202020-07-01%20at%208.38.54%20AM.png"></img>
+<img src="https://raw.githubusercontent.com/cacab/upload_app_api/master/images/Screen%20Shot%202020-07-01%20at%208.38.35%20AM.png"></img>
 
 Copy the connection string shown
 <img src="https://raw.githubusercontent.com/cacab/upload_app_api/master/images/Screen%20Shot%202020-07-01%20at%208.38.54%20AM.png"></img>
