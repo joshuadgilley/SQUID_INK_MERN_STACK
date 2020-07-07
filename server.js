@@ -16,7 +16,7 @@ const mongoDriver = mongoose.mongo;
 
 const app = express();
 
-
+//MIDDLEWARE 
 
 //CORS
 app.use(function(req, res, next) {
@@ -69,4 +69,4 @@ app.use("/api/users", users);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+app.listen(port, () => console.log(`The server is running on port ${port} !`));
