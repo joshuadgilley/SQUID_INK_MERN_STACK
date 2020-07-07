@@ -2,7 +2,10 @@
 Install dependencies for server & client
 
 npm install nodemon 
-npm install && npm run client-install
+<br>
+npm install 
+<br>
+npm run client-install
 
 
 Connect cluster to application 
@@ -21,6 +24,7 @@ Paste the string into config > keys.js. Leave the secretOrKey variable as "secre
 <img src="https://raw.githubusercontent.com/cacab/upload_app_api/master/images/Screen%20Shot%202020-07-01%20at%208.41.05%20AM.png"></img>
 
 Run client & server with concurrently
+<br>
 npm run dev
 
 Server runs on http://localhost:5000 and client on http://localhost:3000
@@ -33,6 +37,7 @@ ADDITIONAL DOCUMENTATION:
 
 
 Possible to-dos: 
+<br>
 -Configure dockerization of both front and backend. 
 <br>
 -Connect DB collections to query documents by JWT for each user. This will require a collection for "uploads" and one for "users" these collections alreadty exist, they just need to be configured. 

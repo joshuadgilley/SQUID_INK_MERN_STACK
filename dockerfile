@@ -18,6 +18,6 @@ RUN npm ci
 COPY . .
 
 # Exports
-EXPOSE 8080
+EXPOSE 5000
 
 CMD ["npm","start"]
