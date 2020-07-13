@@ -155,6 +155,8 @@ const upload = multer({ storage });
 
 // testing route for http://localhost:5000/api/users/upload
 router.get("/upload", (req, res) => {
+
+  
     gfs.files.find().toArray((err, files) => {
       // Check for files
       if (!files || files.length === 0) {
