@@ -36,18 +36,24 @@ ADDITIONAL DOCUMENTATION:
 
 
 
-Possible to-dos: 
+To-dos: 
 <br>
 -Configure dockerization of both front and backend. 
 <br>
 -Connect DB collections to query documents by JWT for each user. This will require a collection for "uploads" and one for "users" these collections alreadty exist, they just need to be configured. 
 <br>
+-Add additional CSS into SQUID GUI (use Netbeans)
+
+<br>
+<br>
+<br>
+Notes:
+<br>
 -MongoDB testing: https://www.mongodb.com/cloud/atlas
 <br>
 -API testing: https://www.postman.com/
 <br>
--Add additional CSS into SQUID GUI (use Netbeans)
-<br>
+
 
 
 Sources and resources: 
@@ -59,4 +65,5 @@ Sources and resources:
 -https://www.youtube.com/watch?v=3f5Q9wDePzY
 <br>
 -https://github.com/hapijs/joi/blob/master/API.md#compileschema
+<br>
 

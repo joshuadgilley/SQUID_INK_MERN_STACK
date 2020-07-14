@@ -10,8 +10,10 @@ const users = require("./routes/api/users");
 const { mongo, connection } = require('mongoose');
 const Grid = require('gridfs-stream');
 const GridFsStorage = require('multer-gridfs-storage');
+const GridFs = require('gridfs-stream');
 Grid.mongo = mongo;
 const mongoDriver = mongoose.mongo;
+const methodOverride = require('method-override');
 
 
 const app = express();
@@ -35,6 +37,8 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+app.use(methodOverride('_method'));
+app.set('view engine', 'ejs');
 
 // DB Config
 const db = require("./config/keys").mongoURI;
@@ -49,7 +53,8 @@ const conn = mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
-
+  
+  const gfs = new GridFs("upload_db.useruploads", mongoDriver);
 
 
 // Passport middleware

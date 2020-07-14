@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
-import { BrowserRouter as Router, Route} from 'react-router-dom'
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from 'axios';
 
@@ -15,7 +12,8 @@ class Upload extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-        file: null
+      files: [],
+      file: ''
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -30,7 +28,7 @@ onFormSubmit(e){
             'content-type': 'multipart/form-data'
         }
     };
-    axios.post("http://localhost:5000/api/uploads",formData,config)
+    axios.post("http://localhost:5000/api/users/files",formData,config)
         .then((response) => {
             alert("The file is successfully uploaded");
             console.log("uploaded"); 
