@@ -12,6 +12,8 @@ const Grid = require('gridfs-stream');
 const GridFsStorage = require('multer-gridfs-storage');
 Grid.mongo = mongo;
 const mongoDriver = mongoose.mongo;
+const crypto = require('crypto'); 
+const path = require('path');
 
 
 // Load input validation
@@ -179,7 +181,7 @@ router.get("/upload", (req, res) => {
 
 
 router.post('/upload', upload.single('file'), (req, res) => {
-  // res.json({ file: req.file });
+  res.json({ file: req.file });
   res.redirect('/');
 });
 
@@ -204,7 +206,7 @@ router.get('/files', (req, res) => {
 // @desc  Display single file object
 router.get('/files/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // Check if file
+    // if file does not exist 
     if (!file || file.length === 0) {
       return res.status(404).json({
         err: 'No file exists'
