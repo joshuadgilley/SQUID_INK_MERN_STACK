@@ -14,8 +14,6 @@ const GridFs = require('gridfs-stream');
 Grid.mongo = mongo;
 const mongoDriver = mongoose.mongo;
 const methodOverride = require('method-override');
-
-
 const app = express();
 
 //MIDDLEWARE 

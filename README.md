@@ -4,6 +4,8 @@ Install dependencies for server & client
 npm install nodemon 
 <br>
 npm install 
+cd client 
+npm install
 <br>
 npm run client-install
 
