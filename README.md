@@ -35,8 +35,8 @@ This app uses MongoDB
 POSTMAN TUTORIAL: 
 <br>
 The development of this application uses Postman for API testing. https://www.postman.com/ Postman is opensource, download the software and follow the instructions in the screenshots below. 
-<br
-
+<br>
+<img src="https://raw.githubusercontent.com/cacab/upload_app_api/master/images/Screen%20Shot%202020-07-23%20at%2010.03.12%20AM.png"></img>
 
 ADDITIONAL DOCUMENTATION: 
 
