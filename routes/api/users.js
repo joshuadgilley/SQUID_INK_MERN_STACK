@@ -184,7 +184,7 @@ router.get("/upload", (req, res) => {
     });
 });
 
-
+//http://localhost:5000/api/users/upload
 router.post('/upload', upload.single('file'), (req, res) => {
   res.json({ file: req.file });
   res.redirect('/');
@@ -246,7 +246,9 @@ router.get('/image/:filename', (req, res) => {
 });
 
 // @route DELETE /files/:id
+// @route 
 // @desc  Delete file
+
 router.delete('/files/:id', (req, res) => {
   gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
     if (err) {

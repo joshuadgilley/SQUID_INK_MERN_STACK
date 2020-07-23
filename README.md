@@ -4,11 +4,9 @@ Install dependencies for server & client
 npm install nodemon 
 <br>
 npm install 
-cd client 
-npm install
 <br>
 npm run client-install
-
+<br>
 
 Connect cluster to application 
 
@@ -32,6 +30,12 @@ npm run dev
 Server runs on http://localhost:5000 and client on http://localhost:3000
 
 This app uses MongoDB 
+<br>
+
+POSTMAN TUTORIAL: 
+<br>
+The development of this application uses Postman for API testing. https://www.postman.com/ Postman is opensource, download the software and follow the instructions in the screenshots below. 
+<br
 
 
 ADDITIONAL DOCUMENTATION: 
