@@ -10,7 +10,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install Dependencies
-COPY package*.json ./
+COPY . . 
 
 RUN npm ci
 
