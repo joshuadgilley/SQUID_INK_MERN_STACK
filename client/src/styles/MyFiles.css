@@ -1,0 +1,11 @@
+.MyFiles-table {
+    width: 70%;
+    margin: 10px auto;
+    border-collapse: collapse;
+  }
+  .MyFiles-table th {
+    border: 1px solid black;
+  }
+  .MyFiles-table td {
+    border: 1px solid black;
+  }

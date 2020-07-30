@@ -7,8 +7,6 @@ import axios from 'axios';
 
 
 class Upload extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.state ={
@@ -17,7 +15,17 @@ class Upload extends React.Component {
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    //this.loadFiles = this.loadFiles.bind(this);
 }
+
+componentDidMount() {
+ // this.loadFiles();
+}
+
+
+
+
+
 onFormSubmit(e){
     e.preventDefault();
     const formData = new FormData();

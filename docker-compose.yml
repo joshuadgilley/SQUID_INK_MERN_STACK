@@ -23,7 +23,7 @@ services:
       image: mongo
       container_name: myapp-mongodb
       ports:
-        - "27017:27017"
+        - "8080:8080"
 
 
       
