@@ -7,7 +7,8 @@ npm install
 <br>
 npm run client-install
 <br>
-
+npm run dev -starts server and client 
+<br>
 Connect cluster to application 
 
 MongoDB Atlas Configuration 
