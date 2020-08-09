@@ -1,0 +1,28 @@
+
+
+.Upload-table {
+    width: 70%;
+    margin: 10px auto;
+    border-collapse: collapse;
+  }
+  .Upload-table th {
+  
+    margin: auto;
+    width: 50%;
+  }
+  .Upload-table td {
+    margin: auto;
+    width: 50%;
+  }
+
+  .Upload-content {
+    margin: auto;
+    width: 50%;
+    padding: 40px;
+  }
+
+  .Upload-title {
+    width: 70%;
+    margin: 70px auto;
+    border-collapse: collapse;
+  }

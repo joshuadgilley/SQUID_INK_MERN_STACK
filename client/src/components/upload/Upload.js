@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from 'axios';
-
+import './Upload.css';
 
 
 
@@ -67,29 +67,29 @@ class Upload extends Component {
 render() {
   const { files } = this.state;
   return (
-       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">  upload  </h1>
+       <div className="Upload">
+        <header className="Upload-header">
+          <h5 className="Upload-title"></h5>
         </header>
-        <div className="App-content">
+        <div className="Upload-content">
           <input type="file" onChange={this.fileChanged.bind(this)}/>
           <button onClick={this.uploadFile.bind(this)}>Upload</button>
-          <table className="App-table">
+          <table className="Upload-table">
             <thead>
               <tr>
                   <th>File</th>
                   <th>Uploaded</th>
                   <th>Size</th>
-                  <th></th>
+                  
               </tr>
             </thead>
             <tbody>
               {files.map((file, index) => {
-                var d = new Date(file.uploadDate);
+                const dateUpload = new Date(file.uploadDate);
                 return (
                   <tr key={index}>
                     <td><a href={`http://localhost:5000/api/users/files/${file.filename}`}>{file.filename}</a></td>
-                    <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>
+                    <td>{`${dateUpload.toLocaleDateString()} ${dateUpload.toLocaleTimeString()}`}</td>
                     <td>{(Math.round(file.length/100) / 10)+'KB'}</td>
                     <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
                   </tr>
