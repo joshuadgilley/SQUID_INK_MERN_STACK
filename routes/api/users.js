@@ -156,12 +156,62 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
+const singleUpload = multer({ storage: storage }).single('file');
+//const files = new GridStore(db, new ObjectID(':filename'), 'r');
+
+
+router.get('/files/:filename', (req, res) => {
+  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+    if(!files || files.length === 0){
+      return res.status(404).json({
+        message: "Could not find file"
+      });
+    }
+    var readstream = gfs.createReadStream({
+      filename: files[0].filename
+    })
+    res.set('Content-Type', files[0].contentType);
+    return readstream.pipe(res);
+  });
+});
+
+ router.get('/files', (req, res) => {
+  //const files = new GridStore(db, new ObjectID(':filename'), 'r');
+
+  gfs.files.find().toArray((err, files) => {
+   // const gridstore = new GridStore(db, new ObjectID(':filename'), 'r');
+
+    if(!files || files.length === 0){
+      return res.status(404).json({
+        message: "Could not find files"
+      });
+    }
+    return res.json(files);
+});
+}); 
+
+
+router.post('/files', singleUpload, (req, res) => {
+  if (req.file) {
+    return res.json({
+      success: true,
+      file: req.file
+    });
+  }
+  res.send({ success: false });
+});
+
+router.delete('/files/:id', (req, res) => {
+  gfs.remove({ _id: req.params.id }, (err) => {
+    if (err) return res.status(500).json({ success: false })
+      return res.json({ success: true });
+    });
+});
 
 
 // @route GET http://localhost:5000/api/users/upload
 // @desc get files
-
-router.get("/upload", (req, res) => {
+/* router.get("/upload", (req, res) => {
 
 
     gfs.files.find().toArray((err, files) => {
@@ -188,76 +238,7 @@ router.get("/upload", (req, res) => {
 router.post('/upload', upload.single('file'), (req, res) => {
   res.json({ file: req.file });
   res.redirect('/');
-});
-
-// @route GET http://localhost:5000/api/users/files
-// @desc  Display all files in JSON
-router.get('/files', (req, res) => {
-  gfs.files.find().toArray((err, files) => {
-    // Check for files
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        err: 'No files exist'
-      });
-    }
-
-    // Files exist
-    return res.json(files);
-  });
-});
-
-
-// @route GET http://localhost:5000/api/users/files/:filename
-// @desc  Display single file object
-router.get('/files/:filename', (req, res) => {
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // if file does not exist 
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        err: 'No file exists'
-      });
-    }
-    // File exists
-    return res.json(file);
-  });
-});
-
-// @route GET http://localhost:5000/api/users/image/:name
-// @desc Display Image
-router.get('/image/:filename', (req, res) => {
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // check to see if files exist 
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        err: 'No file exists'
-      });
-    }
-
-    // check type of file
-    if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-      // Read output to browser
-      const readstream = gfs.createReadStream(file.filename);
-      readstream.pipe(res);
-    } else {
-      const readstream = gfs.createReadStream(file.filename);
-      readstream.pipe(res);
-    }
-  });
-});
-
-// @route DELETE /files/:id
-// @route 
-// @desc  Delete file
-
-router.delete('/files/:id', (req, res) => {
-  gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
-    if (err) {
-      return res.status(404).json({ err: err });
-    }
-
-    res.redirect('/');
-  });
-});
+}); */
 
 
 module.exports = router;

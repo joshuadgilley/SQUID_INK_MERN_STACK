@@ -6,90 +6,108 @@ import axios from 'axios';
 
 
 
-class Upload extends React.Component {
+class Upload extends Component {
   constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       files: [],
       file: ''
-    };
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    //this.loadFiles = this.loadFiles.bind(this);
-}
-
-componentDidMount() {
- // this.loadFiles();
-}
-
-
-
-
-
-onFormSubmit(e){
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('myfile',this.state.file);
-    console.log('myfile',this.state.file)
-    const config = {
-        headers: {
-            'content-type': 'multipart/form-data'
+    }
+    this.loadFiles = this.loadFiles.bind(this);
+  }
+  componentDidMount() {
+    this.loadFiles();
+  }
+  loadFiles() {
+    fetch('/api/users/files')
+      .then(res => res.json())
+      .then(files => {
+        if (files.message) {
+          console.log('No Files');
+          this.setState({ files: [] })
+        } else {
+          this.setState({ files })
         }
-    };
-    axios.post("http://localhost:5000/api/users/files",formData,config)
-        .then((response) => {
-            alert("The file is successfully uploaded");
-            console.log("uploaded"); 
-        }).catch((error) => {
-    });
-}
-
-onChange(e) {
-    this.setState({file:e.target.files});
-}
-  render() {
-
-    
-    const { user } = this.props.auth;
-
-    return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
-          <div className="landing-copy col s12 center-align">
-            <h4>
-              <p className="flow-text grey-text text-darken-1">
-                Upload files to server
-              </p>
-            </h4>
-
-            <div className="container">
-                <div className="row">
-                    <form>
-
-                    <input type="file" name="file" id="file" required />
-                    <br/><br/>
-                    <input type="submit" />
-   
-                    </form>
-                </div>
-            </div>
-
-          </div>
+      });
+  }
+ fileChanged(event) {
+   const f = event.target.files[0];
+   this.setState({
+     file: f
+   });
+ }
+ deleteFile(event) {
+   event.preventDefault();
+   const id = event.target.id;
+   fetch('/api/users/files'+id, {
+     method: 'DELETE'
+   }).then(res => res.json())
+     .then(response => {
+       console.log(response);
+       if (response.success) this.loadFiles()
+       else alert('Delete Failed');
+     })
+ }
+ uploadFile(event) {
+    event.preventDefault();
+    let data = new FormData();
+    data.append('file', this.state.file);
+   fetch('/api/users/files', {
+     method: 'POST',
+     body: data
+   }).then(res => res.json())
+     .then(data => {
+       if (data.success) {
+       this.loadFiles();
+     } else {
+       alert('Upload failed');
+     }
+   });
+ }
+render() {
+  const { files } = this.state;
+  return (
+       <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">  upload  </h1>
+        </header>
+        <div className="App-content">
+          <input type="file" onChange={this.fileChanged.bind(this)}/>
+          <button onClick={this.uploadFile.bind(this)}>Upload</button>
+          <table className="App-table">
+            <thead>
+              <tr>
+                  <th>File</th>
+                  <th>Uploaded</th>
+                  <th>Size</th>
+                  <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {files.map((file, index) => {
+                var d = new Date(file.uploadDate);
+                return (
+                  <tr key={index}>
+                    <td><a href={`http://localhost:5000/api/users/files/${file.filename}`}>{file.filename}</a></td>
+                    <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>
+                    <td>{(Math.round(file.length/100) / 10)+'KB'}</td>
+                    <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
-    );
-  }
+);
+ }
 }
 
-
-
-const mapStateToProps = state => ({
-  auth: state.auth,
- 
-});
-
-export default connect(
+/* export default connect(
   mapStateToProps,
   { }
 )  (Upload);
+ */
 
+
+export default Upload; 
