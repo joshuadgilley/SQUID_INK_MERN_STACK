@@ -45,10 +45,8 @@ class MyFiles extends Component {
             <table className="App-table">
             <thead>
               <tr>
-                  <th>File</th>
-                  <th>Uploaded</th>
-                  <th>Size</th>
-                  <th></th>
+                  <th>My files and folders</th>
+
               </tr>
             </thead>
             <tbody>
