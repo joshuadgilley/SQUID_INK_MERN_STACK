@@ -3,7 +3,7 @@
 # Stage 1: Build react client
 FROM node:10.16-alpine as client
 
-# Working directory be app
+# Working directory for app
 WORKDIR /usr/app/client/
 
 COPY client/package*.json ./
