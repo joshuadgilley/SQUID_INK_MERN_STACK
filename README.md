@@ -42,15 +42,6 @@ The development of this application uses Postman for API testing. https://www.po
 ADDITIONAL DOCUMENTATION: 
 
 
-
-To-dos: 
-<br>
--Configure dockerization of both front and backend. DONE
-<br>
--Connect DB collections to query documents by JWT for each user. This will require a collection for "uploads" and one for "users" these collections alreadty exist, they just need to be configured. DONE
-<br>
--Add additional CSS into SQUID GUI (use Netbeans)
-
 <br>
 <br>
 <br>
