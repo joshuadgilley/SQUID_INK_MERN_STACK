@@ -3,19 +3,20 @@ import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
-import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { setCurrentUser, logoutUser } from "../src/authActions";
+//../Users/caitlin/SQUID_MERN/server/actions/authActions.js
 import { Provider } from "react-redux";
 import store from "./store";
 
-import Navbar from "./components/layout/Navbar";
-import Landing from "./components/layout/Landing";
-import Register from "./components/auth/Register";
-import Login from "./components/auth/Login";
-import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./components/dashboard/Dashboard";
-import Upload from "./components/upload/Upload";
-import Squid from "./components/squid/Squid";
-import MyFiles from "./components/myfiles/MyFiles";
+import Navbar from "../src/Navbar";
+import Landing from "../src/Landing";
+import Register from "../src/Register";  
+import Login from "./Login"; 
+import PrivateRoute from "../src/PrivateRoute";
+import Dashboard from "./Dashboard";
+import Upload from "../src/Upload";
+import Squid from "../src/Squid";
+import MyFiles from "../src/MyFiles";
 
 import "./App.css";
 
