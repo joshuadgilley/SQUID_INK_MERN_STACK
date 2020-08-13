@@ -5,9 +5,17 @@ npm install nodemon
 <br>
 npm install 
 <br>
-npm run client-install
+cd server 
 <br>
-npm run dev -starts server and client 
+npm run start 
+<br>
+cd client
+<br> 
+npm run start 
+<br>
+<b>TO RUN USING DOCKER</b>
+<br>
+docker-compose up --build -remove-orphans
 <br>
 Connect cluster to application 
 
