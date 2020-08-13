@@ -1,8 +1,8 @@
 // @flow
 
 import React, { Component, Fragment } from "react";
-import { bindActionCreators } from "redux";
-import axios from "axios";
+import { bindActionCreators } from "../node_modules/redux";
+import axios from "../node_modules/axios";
 //import style from './squid.scss'
 import {
   BrowserRouter as Router,

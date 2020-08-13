@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "../src/authActions";
-//../Users/caitlin/SQUID_MERN/server/actions/authActions.js
 import { Provider } from "react-redux";
 import store from "./store";
 

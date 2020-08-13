@@ -11,6 +11,7 @@ COPY client/package*.json ./
 # Install dependencies
 RUN yarn install
 
+
 # copy local files to app folder
 COPY client/ ./
 RUN ls
@@ -29,6 +30,9 @@ WORKDIR /usr/src/app/server/
 COPY server/package*.json ./
 RUN npm install -qy
 COPY server/ ./
+
+
+
 
 ENV PORT 5000
 
