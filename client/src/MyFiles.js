@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import LinkButton from "../src/authActions";
+import LinkButton from "./authActions";
 
 
 class MyFiles extends Component {
@@ -24,7 +24,6 @@ class MyFiles extends Component {
           this.setState({ files: [] })
         } else {
           this.setState({ files })
-          console.log('WHAT IS HAPPENING?!');
         } 
       });
   }
@@ -54,6 +53,7 @@ class MyFiles extends Component {
                 var d = new Date(file.uploadDate);
                 return (
                   <tr key={index}>
+                    <td><a href={`http://localhost:5000/api/users/files/${file.filename}`}>{file.filename}</a></td>
                     <td><a href={`http://localhost:5000/api/users/files/${file.filename}`}>{file.filename}</a></td>
                     <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>
                     <td>{(Math.round(file.length/100) / 10)+'KB'}</td>

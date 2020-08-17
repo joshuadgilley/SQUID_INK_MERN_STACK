@@ -71,6 +71,5 @@ Sources and resources:
 <br>
 -https://www.youtube.com/watch?v=3f5Q9wDePzY
 <br>
--https://github.com/hapijs/joi/blob/master/API.md#compileschema
 <br>
 

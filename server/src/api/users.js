@@ -24,10 +24,6 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../src/models/User");
 
-///Users/caitlin/SQUID_MERN/server/src/models/User.js
-
-
-
 
 //Load Upload model
 const Upload = require("../../src/models/Upload");
@@ -162,7 +158,6 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 const singleUpload = multer({ storage: storage }).single('file');
-//const files = new GridStore(db, new ObjectID(':filename'), 'r');
 
 
 router.get('/files/:filename', (req, res) => {
@@ -177,14 +172,15 @@ router.get('/files/:filename', (req, res) => {
     })
     res.set('Content-Type', files[0].contentType);
     return readstream.pipe(res);
+     
   });
+
 });
 
  router.get('/files', (req, res) => {
-  //const files = new GridStore(db, new ObjectID(':filename'), 'r');
 
   gfs.files.find().toArray((err, files) => {
-   // const gridstore = new GridStore(db, new ObjectID(':filename'), 'r');
+ 
 
     if(!files || files.length === 0){
       return res.status(404).json({
@@ -197,6 +193,8 @@ router.get('/files/:filename', (req, res) => {
 
 
 router.post('/files', singleUpload, (req, res) => {
+
+  
   if (req.file) {
     return res.json({
       success: true,
@@ -213,34 +211,6 @@ router.delete('/files/:id', (req, res) => {
     });
 });
 
-
-// @route GET http://localhost:5000/api/users/upload
-// @desc get files
-/* router.get("/upload", (req, res) => {
-    gfs.files.find().toArray((err, files) => {
-      // Check for files
-      if (!files || files.length === 0) {
-        res.render('index', { files: false });
-      } else {
-        files.map(file => {
-          if (
-            file.contentType === 'image/jpeg' ||
-            file.contentType === 'image/png'
-          ) {
-            file.isImage = true;
-          } else {
-            file.isImage = false;
-          }
-        });
-        res.render('index', { files: files });
-      }
-    });
-});
-//http://localhost:5000/api/users/upload
-router.post('/upload', upload.single('file'), (req, res) => {
-  res.json({ file: req.file });
-  res.redirect('/');
-}); */
 
 
 module.exports = router;
