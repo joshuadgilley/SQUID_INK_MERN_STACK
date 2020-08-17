@@ -17,6 +17,10 @@ npm run start
 <br>
 docker-compose up --build -remove-orphans
 <br>
+or
+<br>
+docker-compose up
+<br>
 Connect cluster to application 
 
 MongoDB Atlas Configuration 
