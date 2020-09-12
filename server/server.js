@@ -19,8 +19,8 @@ const app = express();
 
 //MIDDLEWARE 
 // will redirect all the non-api routes to react frontend
-router.use(function(req, res) {
-  res.sendFile(path.join(__dirname, '../client','build','index.html'));
+router.use(function (req, res) {
+  res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
 });
 
 const CLIENT_BUILD_PATH = path.join(__dirname, "../client/build");
@@ -29,15 +29,14 @@ const CLIENT_BUILD_PATH = path.join(__dirname, "../client/build");
 app.use(express.static(CLIENT_BUILD_PATH));
 
 // Server React Client
-app.get("/", function(req, res) {
-  res.sendFile(path.join(CLIENT_BUILD_PATH , "index.html"));
+app.get("/", function (req, res) {
+  res.sendFile(path.join(CLIENT_BUILD_PATH, "index.html"));
 });
 
 
 
-
 //CORS
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
   res.header("Access-Control-Allow-Origin", "http://localhost:3000", "http://localhost:5000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -51,9 +50,9 @@ app.use(
   bodyParser.urlencoded({
     extended: false
   })
-  
+
 );
-app.use(bodyParser.json({limit: '50mb', extended: true},));
+app.use(bodyParser.json({ limit: '50mb', extended: true },));
 app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
@@ -64,14 +63,16 @@ const db = require("./config/keys").mongoURI;
 const conn = mongoose
   .connect(
     db,
-    { useNewUrlParser: true,
-      useUnifiedTopology: true }
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
-  
-  const gfs = new GridFs("upload_db.useruploads", mongoDriver);
+
+const gfs = new GridFs("upload_db.useruploads", mongoDriver);
 
 
 // Passport middleware
