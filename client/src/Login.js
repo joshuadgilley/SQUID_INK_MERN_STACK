@@ -4,15 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "./authActions";
 import classnames from "classnames";
-import Button from "@material-ui/core/Button";
-import FormControl from '@material-ui/core/FormControl';
-import { FormHelperText } from '@material-ui/core';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import { sizing } from '@material-ui/system';
-import {border, borders} from '@material-ui/system';
 
 class Login extends Component {
   constructor() {
@@ -62,78 +53,72 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        <div style={{
-          margin: "0",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -70%)"
-        }}>
-        <Grid container
-              justify="center"
-              spacing={6}
-        >
-          <Grid item xs={12} >
-            <div className="col s12">
-              <h2>
+      <div className="container">
+        <div style={{ marginTop: "4rem" }} className="row">
+          <div className="col s8 offset-s2">
+            <Link to="/" className="btn-flat waves-effect">
+              <i className="material-icons left">keyboard_backspace</i> Back to
+              home
+            </Link>
+            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <h4>
                 <b>Login</b> below
-              </h2>
+              </h4>
+              <p className="grey-text text-darken-1">
+                Don't have an account? <Link to="/register">Register</Link>
+              </p>
             </div>
-          </Grid>
-          <Box   borderColor="#3F51B5" border={2} justifyContent="center" display="flex" p={1} bgcolor="#e3e5e8" >
-            <form noValidate autoComplete="on" onSubmit={this.onSubmit} >
-              <Grid item xs={12}>
-                <FormControl>
-                  <InputLabel htmlFor="component-simple">Email</InputLabel>
-                  <Input style={{width: "500px"}}
-                         id="email"
-                         value={this.state.email}
-                         onChange={this.onChange}
-                         error={errors.email}
-                         type="email"
-                         className={classnames("", {
-                           invalid: errors.email || errors.emailnotfound
-                         })}/>
-                  <FormHelperText error id="helper">{errors.email}
-                    {errors.emailnotfound}</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-              <FormControl>
-                <InputLabel htmlFor="component-simple">Password</InputLabel>
-                <Input style={{width: "500px"}}
-                       id="password"
-                       value={this.state.password}
-                       onChange={this.onChange}
-                       error={errors.password}
-                       type="password"
-                       className={classnames("", {
-                         invalid: errors.password || errors.passwordincorrect
-                       })}/>
-                <FormHelperText error id="helper" >{errors.password}
-                  {errors.passwordincorrect}</FormHelperText>
-
-              </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-              <div className="col s12" style={{paddingLeft: "11.250px", marginTop: "20px"}}>
-                <Button type="submit" variant="outlined" color="gray" size="large">
-                  Login
-                </Button>
+            <form noValidate onSubmit={this.onSubmit}>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.email}
+                  error={errors.email}
+                  id="email"
+                  type="email"
+                  className={classnames("", {
+                    invalid: errors.email || errors.emailnotfound
+                  })}
+                />
+                <label htmlFor="email">Email</label>
+                <span className="red-text">
+                  {errors.email}
+                  {errors.emailnotfound}
+                </span>
               </div>
-              </Grid>
-              <div className="col s12" style={{marginTop: "10px"}}>
-              <Grid item xs={12}>
-              <h3 className="grey-text text-darken-1">
-                Don't have an account? <br/>
-                <Link to="/register">Register Here</Link>
-              </h3>
-              </Grid>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.password}
+                  error={errors.password}
+                  id="password"
+                  type="password"
+                  className={classnames("", {
+                    invalid: errors.password || errors.passwordincorrect
+                  })}
+                />
+                <label htmlFor="password">Password</label>
+                <span className="red-text">
+                  {errors.password}
+                  {errors.passwordincorrect}
+                </span>
+              </div>
+              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                <button
+                  style={{
+                    width: "150px",
+                    borderRadius: "3px",
+                    letterSpacing: "1.5px",
+                    marginTop: "1rem"
+                  }}
+                  type="submit"
+                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                >
+                  Login
+                </button>
               </div>
             </form>
-          </Box>
-        </Grid>
+          </div>
         </div>
       </div>
     );
