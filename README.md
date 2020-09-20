@@ -17,7 +17,7 @@ npm run start
 <br>
 <b>TO RUN USING DOCKER</b>
 <br>
-docker-compose up --build -remove-orphans
+docker-compose up --build --remove-orphans
 <br>
 or
 <br>
