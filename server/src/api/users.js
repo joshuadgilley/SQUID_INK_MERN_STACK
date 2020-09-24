@@ -184,8 +184,8 @@ router.get('/files/:filename', (req, res) => {
      const notAdmin = client.db("upload_db");
      notAdmin.collection("useruploads.files").find().toArray().then(value => {
        console.log(value);
-       return res.json(value)
        client.close();
+       return res.json(value)
      });
    });
 });
