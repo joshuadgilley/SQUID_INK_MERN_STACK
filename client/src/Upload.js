@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import './Upload.css';
+import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -35,6 +36,8 @@ class Upload extends Component {
   }
   fileChanged(event) {
     const f = event.target.files[0];
+    f.userId = this.props.auth.user.id;
+    console.log(f)
     this.setState({
       file: f
     });
@@ -81,65 +84,72 @@ class Upload extends Component {
   render() {
     const { files } = this.state;
     return (
-        <Grid container
-              justify="center"
-              spacing={12}
-        >
-          <Grid item xs={12}>
+      <Grid container
+        justify="center"
+        spacing={12}
+      >
+        <Grid item xs={12}>
           <TableContainer>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                <TableCell align="center">File Name</TableCell>
-                <TableCell align="center">Uploaded Date</TableCell>
-                <TableCell align="center">Size</TableCell>
+                  <TableCell align="center">File Name</TableCell>
+                  <TableCell align="center">Uploaded Date</TableCell>
+                  <TableCell align="center">Size</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {this.state.fileInfo.map((file, index) => {
-                  return(
-                  <TableRow key={file.index}>
-                    <TableCell align="center">
-                      {file.name}
-                    </TableCell>
-                    <TableCell align="center">
-                      {/*Returns NaN, not pulling date appropriately?*/}
-                      {new Date(file.uploadDate).getDate()}
-                    </TableCell>
-                    <TableCell align="center">
-                      {(Math.round(file.size / 100) / 10) + 'KB'} &nbsp;
+                  return (
+                    <TableRow key={file.index}>
+                      <TableCell align="center">
+                        {file.name}
+                      </TableCell>
+                      <TableCell align="center">
+                        {/*Returns NaN, not pulling date appropriately?*/}
+                        {new Date(file.uploadDate).getDate()}
+                      </TableCell>
+                      <TableCell align="center">
+                        {(Math.round(file.size / 100) / 10) + 'KB'} &nbsp;
                       <Button variant="outlined" color="secondary" onClick={() => {
-                      this.deleteFile.bind(this)
-                      let arr = this.state.fileInfo;
-                      arr.splice(index, 1);
-                      this.setState({
-                        fileInfo: arr
-                      })
-                    }}id={file._id}>Remove</Button>
-                    </TableCell>
-                  </TableRow>
+                          this.deleteFile.bind(this)
+                          let arr = this.state.fileInfo;
+                          arr.splice(index, 1);
+                          this.setState({
+                            fileInfo: arr
+                          })
+                        }} id={file._id}>Remove</Button>
+                      </TableCell>
+                    </TableRow>
                   )
                 })}
               </TableBody>
             </Table>
           </TableContainer>
-          </Grid>
-      <Grid item xs={12}>
-      <div className="Upload">
-        <header className="Upload-header">
-          <h5 className="Upload-title"></h5>
-        </header>
-        <div className="Upload-content">
-          <input type="file" onChange={this.fileChanged.bind(this)} />
-          <Button style={{marginTop: "10px",
-          display: "inline-block"}} variant="outlined" color="Primary" onClick={this.uploadFile.bind(this)}>Upload</Button>
-        </div>
-      </div>
-      </Grid>
         </Grid>
+        <Grid item xs={12}>
+          <div className="Upload">
+            <header className="Upload-header">
+              <h5 className="Upload-title"></h5>
+            </header>
+            <div className="Upload-content">
+              <input type="file" onChange={this.fileChanged.bind(this)} />
+              <Button style={{
+                marginTop: "10px",
+                display: "inline-block"
+              }} variant="outlined" color="Primary" onClick={this.uploadFile.bind(this)}>Upload</Button>
+            </div>
+          </div>
+        </Grid>
+      </Grid>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-export default Upload; 
+export default connect(
+  mapStateToProps
+)(Upload);
