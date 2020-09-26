@@ -39,6 +39,7 @@
     "sass-loader": "^8.0.2",
     "statuses": "^2.0.0",
     "style-loader": "^1.2.1",
+    "uuid": "^8.3.0",
     "validator": "^10.9.0",
     "yarn": "^1.22.4"
   }

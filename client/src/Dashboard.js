@@ -10,11 +10,12 @@ class Dashboard extends Component {
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser();
+    console.log(this.props.auth)
 
   };
 
 
- 
+
 
 
   render() {
@@ -30,26 +31,26 @@ class Dashboard extends Component {
           transform: "translate(-50%, -50%)"
         }}>
           <Grid container
-                justify="center"
-                spacing={6}
+            justify="center"
+            spacing={6}
           >
-          <div className="landing-copy col s12 center-align">
-            <Grid item xs={12}>
-            <h2>
-              <b>Hello,</b> {user.name.split(" ")[0]} <b>.</b>
-              <p className="flow-text grey-text text-darken-1">
-                You are logged into SQUID INK.
+            <div className="landing-copy col s12 center-align">
+              <Grid item xs={12}>
+                <h2>
+                  <b>Hello,</b> {user.name.split(" ")[0]} <b>.</b>
+                  <p className="flow-text grey-text text-darken-1">
+                    You are logged into SQUID INK.
               </p>
-            </h2>
-          </Grid>
-            <Grid item xs={12} style={{margin: "30px"}}>
-            <Button variant="outlined" color="gray" size="large"
-              onClick={this.onLogoutClick}
-            >
-              Logout
+                </h2>
+              </Grid>
+              <Grid item xs={12} style={{ margin: "30px" }}>
+                <Button variant="outlined" color="gray" size="large"
+                  onClick={this.onLogoutClick}
+                >
+                  Logout
             </Button>
-            </Grid>
-          </div>
+              </Grid>
+            </div>
           </Grid>
         </div>
       </div>
