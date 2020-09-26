@@ -14,6 +14,8 @@ const crypto = require('crypto');
 const path = require('path');
 const app = express();
 
+let userIdForFiles;
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -97,6 +99,7 @@ router.post("/login", (req, res) => {
           id: user.id,
           name: user.name
         };
+        userIdForFiles = user.id
 
         // get token
         jwt.sign(
@@ -141,6 +144,7 @@ const dbs = require("../../config/keys").mongoURI;
 const storage = new GridFsStorage({
   url: dbs,
   file: (req, file) => {
+
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
         if (err) {
@@ -149,6 +153,7 @@ const storage = new GridFsStorage({
         const filename = buf.toString('hex') + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
+          metadata: userIdForFiles,
           bucketName: 'useruploads'
         };
         resolve(fileInfo);
@@ -162,28 +167,27 @@ const upload = multer({ storage });
 const singleUpload = multer({ storage: storage }).single('file');
 
 
-router.get('/files/:filename', (req, res) => {
-  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        message: "Could not find file"
-      });
-    }
-    var readstream = gfs.createReadStream({
-      filename: files[0].filename
-    })
-    res.set('Content-Type', files[0].contentType);
-    return readstream.pipe(res);
+// router.get('/files/:filename', (req, res) => {
+//   gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+//     if (!files || files.length === 0) {
+//       return res.status(404).json({
+//         message: "Could not find file"
+//       });
+//     }
+//     var readstream = gfs.createReadStream({
+//       filename: files[0].filename
+//     })
+//     res.set('Content-Type', files[0].contentType);
+//     return readstream.pipe(res);
 
-  });
+//   });
 
-});
+// });
 
 router.get('/files', (req, res) => {
   MongoClient.connect(dbs, function (err, client) {
     const notAdmin = client.db("upload_db");
     notAdmin.collection("useruploads.files").find().toArray().then(value => {
-      console.log(value);
       client.close();
       return res.json(value)
     });
@@ -192,7 +196,6 @@ router.get('/files', (req, res) => {
 
 
 router.post('/files', singleUpload, (req, res) => {
-
 
   if (req.file) {
     return res.json({
