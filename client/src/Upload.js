@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from 'axios';
 import './Upload.css';
-
-
-
-
+import Button from "@material-ui/core/Button";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Grid from "@material-ui/core/Grid";
 class Upload extends Component {
   constructor(props) {
     super(props);
@@ -79,55 +81,62 @@ class Upload extends Component {
   render() {
     const { files } = this.state;
     return (
-      <div className="Upload">
-        <header className="Upload-header">
-          <h5 className="Upload-title"></h5>
-        </header>
-        <div className="Upload-content">
-          <input type="file" onChange={this.fileChanged.bind(this)} />
-          <button onClick={this.uploadFile.bind(this)}>Upload</button>
-          <table className="Upload-table">
-            <thead>
-              <tr>
-                <th>File</th>
-                <th>Uploaded</th>
-                <th>Size</th>
-
-              </tr>
-            </thead>
-            {/*`${dateUpload.toLocaleDateString()} ${dateUpload.toLocaleTimeString()}`*/}
-            <tbody>
-              {this.state.fileInfo.map((file, index) => {
-                const dateUpload = new Date(file.uploadDate);
-                console.log(this.state.fileInfo)
-                return (
-                  <tr key={index}>
-                    <td><a href={`http://localhost:5000/api/users/files/${file.id}`}>{file.id}</a></td>
-                    <td>{file.name}</td>
-                    <td>{(Math.round(file.size / 100) / 10) + 'KB'}</td>
-                    <td><button onClick={() => {
+        <Grid container
+              justify="center"
+              spacing={12}
+        >
+          <Grid item xs={12}>
+          <TableContainer>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                <TableCell align="center">File Name</TableCell>
+                <TableCell align="center">Uploaded Date</TableCell>
+                <TableCell align="center">Size</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.fileInfo.map((file, index) => {
+                  return(
+                  <TableRow key={file.index}>
+                    <TableCell align="center">
+                      {file.name}
+                    </TableCell>
+                    <TableCell align="center">
+                      {/*Returns NaN, not pulling date appropriately?*/}
+                      {new Date(file.uploadDate).getDate()}
+                    </TableCell>
+                    <TableCell align="center">
+                      {(Math.round(file.size / 100) / 10) + 'KB'} &nbsp;
+                      <Button variant="outlined" color="secondary" onClick={() => {
                       this.deleteFile.bind(this)
                       let arr = this.state.fileInfo;
                       arr.splice(index, 1);
                       this.setState({
                         fileInfo: arr
                       })
-                    }} id={file._id}>Remove</button></td>
-                  </tr>
-                )
-              })}
-            </tbody>
-
-          </table>
-          {/* <div className="fileRenders">
-            <h3 class="ui header" style={{ float: "right" }}>
-              {this.state.fileInfo.map((file) => (
-                <p>{file.name} Successful {file.size}</p>
-              ))}
-            </h3>
-          </div> */}
+                    }}id={file._id}>Remove</Button>
+                    </TableCell>
+                  </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          </Grid>
+      <Grid item xs={12}>
+      <div className="Upload">
+        <header className="Upload-header">
+          <h5 className="Upload-title"></h5>
+        </header>
+        <div className="Upload-content">
+          <input type="file" onChange={this.fileChanged.bind(this)} />
+          <Button style={{marginTop: "10px",
+          display: "inline-block"}} variant="outlined" color="Primary" onClick={this.uploadFile.bind(this)}>Upload</Button>
         </div>
       </div>
+      </Grid>
+        </Grid>
     );
   }
 }

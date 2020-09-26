@@ -1,3 +1,4 @@
+const MongoClient = require('mongodb').MongoClient;
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -5,17 +6,13 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 const multer = require("multer");
-const mongoose  = require("mongoose");
-var conn = mongoose.connection;
 const { mongo, connection } = require('mongoose');
 const Grid = require('gridfs-stream');
 const GridFsStorage = require('multer-gridfs-storage');
 Grid.mongo = mongo;
-const mongoDriver = mongoose.mongo;
 const crypto = require('crypto'); 
 const path = require('path');
 const app = express();
-
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -125,19 +122,24 @@ router.post("/login", (req, res) => {
   });
 });
 
-
-
-const db = require("../../config/keys").mongoURI;
-
-const gfs = new Grid("upload_db", mongoDriver);
-
+/*DB Connect and file retrieval flow
+  Methods for incorporating into get request:
+  1. Run the mongoClient.connect full function within router.get, send request within MongoClient.connect to maintain asynchronicity
+      **Not very efficient, reforms connection on every request
+  2. Package mongoClient as async function, call within get to retrieve files to send, requires async layout, cross-check with router. Will send out a promise
+      if not resolved effectively, likely error out.
+  3. Consolidate client to constant, pass client to register db instance, pull from db instance every time
+      **Have to manage promise to const initialization, see how client.connect interacts without being closed, if instance remains or is closed at function end
+      **Maybe callback function to assign mongoclient final val?? How to move var from function scope to full scope??
+ */
+const dbs = require("../../config/keys").mongoURI;
 
 //gfs.collection('uploads');
 // @route http://localhost:5000/api/users/upload
-// @desc create storange engine 
+// @desc create storange engine
 
 const storage = new GridFsStorage({
-  url: db,
+  url: dbs,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
@@ -172,29 +174,25 @@ router.get('/files/:filename', (req, res) => {
     })
     res.set('Content-Type', files[0].contentType);
     return readstream.pipe(res);
-     
+
   });
 
 });
 
  router.get('/files', (req, res) => {
-
-  gfs.files.find().toArray((err, files) => {
- 
-
-    if(!files || files.length === 0){
-      return res.status(404).json({
-        message: "Could not find files"
-      });
-    }
-    return res.json(files);
+   MongoClient.connect(dbs, function(err, client) {
+     const notAdmin = client.db("upload_db");
+     notAdmin.collection("useruploads.files").find().toArray().then(value => {
+       console.log(value);
+       client.close();
+       return res.json(value)
+     });
+   });
 });
-}); 
 
 
 router.post('/files', singleUpload, (req, res) => {
 
-  
   if (req.file) {
     return res.json({
       success: true,
