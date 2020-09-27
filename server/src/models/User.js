@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
+const uuid = require("uuid");
 const Schema = mongoose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
+  userID: {
+    type: String,
+    default: uuid.v4()
+  },
   name: {
     type: String,
     required: true
