@@ -150,7 +150,8 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
+        //const filename = buf.toString('hex') + path.extname(file.originalname);
+        const filename = file.originalname;
         const fileInfo = {
           filename: filename,
           metadata: userIdForFiles,
@@ -168,8 +169,9 @@ const singleUpload = multer({ storage: storage }).single('file');
 
 
 router.get('/files/:id', (req, res) => {
+  console.log(req.params)
   MongoClient.connect(dbs, function (err, client) {
-    const notAdmin = client.db("upload_db");
+    const notAdmin = client.db("<dbname>");
     notAdmin.collection("useruploads.files").find({ metadata: req.param('id') }).toArray().then(value => {
       client.close();
       return res.json(value)
@@ -179,7 +181,7 @@ router.get('/files/:id', (req, res) => {
 
 router.get('/files', (req, res) => {
   MongoClient.connect(dbs, function (err, client) {
-    const notAdmin = client.db("upload_db");
+    const notAdmin = client.db("<dbname>");
     notAdmin.collection("useruploads.files").find({ metadata: userIdForFiles }).toArray().then(value => {
       client.close();
       console.log(value)

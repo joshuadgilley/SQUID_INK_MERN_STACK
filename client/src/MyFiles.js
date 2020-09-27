@@ -24,8 +24,8 @@ class MyFiles extends Component {
   componentDidMount() {
     this.loadFiles();
   }
-  loadFiles()
-  {const { user } = this.props.auth;
+  loadFiles() {
+    const { user } = this.props.auth;
     fetch(`http://localhost:5000/api/users/files/${user.id}`)
       .then(res => res.json())
       .then(files => {
@@ -35,69 +35,70 @@ class MyFiles extends Component {
           this.setState({ files: [] })
         } else {
           this.setState({ files })
-        } 
+        }
       });
   }
-  
-  
-    render() {
-      const { files } = this.state;
-      const { user } = this.props.auth;
-      console.log(files);
-      return (
-        <div style={{ height: "75vh" }} className="container valign-wrapper">
-          <Grid container
-                justify="center"
-                spacing={12}
-          >
-            <Grid item xs={12}>
-              <TableContainer>
-                <Table aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">File Name</TableCell>
-                      <TableCell align="center">Uploaded Date</TableCell>
-                      <TableCell align="center">Size</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {files.map((file, index) => {
-                      return (
-                          <TableRow key={file.index}>
-                            <TableCell align="center">
-                              {file.filename}
-                            </TableCell>
-                            <TableCell align="center">
-                              {file.uploadDate}
-                            </TableCell>
-                            <TableCell align="center">
-                              {(Math.round(file.length/100) / 10)+'KB'}
-                            </TableCell>
-                          </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
+
+
+
+
+  render() {
+    const { files } = this.state;
+    const { user } = this.props.auth;
+    console.log(this.state);
+    return (
+      <div style={{ height: "75vh" }} className="container valign-wrapper">
+        <Grid container
+          justify="center"
+          spacing={12}
+        >
+          <Grid item xs={12}>
+            <TableContainer>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">File Name</TableCell>
+                    <TableCell align="center">Uploaded Date</TableCell>
+                    <TableCell align="center">Size</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {files.map((file, index) => {
+                    return (
+                      <TableRow key={file.index}>
+                        <TableCell align="center">
+                          {file.filename}
+                        </TableCell>
+                        <TableCell align="center">
+                          {file.uploadDate}
+                        </TableCell>
+                        <TableCell align="center">
+                          {(Math.round(file.length / 100) / 10) + 'KB'}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Grid>
-        </div>
-      );
-    }
-
-
-    
+        </Grid>
+      </div>
+    );
   }
-  
- 
-  
-  const mapStateToProps = state => ({
-    auth: state.auth
-  });
-  
-  export default connect(
-    mapStateToProps,
-    {}
-  )(MyFiles);
-  
-  
+
+
+
+}
+
+
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(MyFiles);
+
