@@ -1,6 +1,9 @@
 const MongoClient = require('mongodb').MongoClient;
+const GridBuck = require('mongodb').GridFSBucket;
+const ObjectID = require('mongodb').ObjectID;
 const express = require("express");
 const router = express.Router();
+const fs = require('fs');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
@@ -13,7 +16,7 @@ Grid.mongo = mongo;
 const crypto = require('crypto');
 const path = require('path');
 const app = express();
-
+const { exec } = require('child_process')
 let userIdForFiles;
 
 // Load input validation
@@ -72,7 +75,6 @@ router.post("/register", (req, res) => {
 // @access Public
 router.post("/login", (req, res) => {
   // Form validation
-
   const { errors, isValid } = validateLoginInput(req.body);
 
   // Check validation
@@ -150,7 +152,8 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
+        //const filename = buf.toString('hex') + path.extname(file.originalname);
+        const filename = file.originalname;
         const fileInfo = {
           filename: filename,
           metadata: userIdForFiles,
@@ -177,18 +180,36 @@ router.get('/files/:id', (req, res) => {
   });
 });
 
-router.get('/files', (req, res) => {
+//Attempting to retrieve full file from sharded collections
+//Successfully pulls files from db by name, store to temp local dir?
+router.get('/reform/:id', (req, res) => {
   MongoClient.connect(dbs, function (err, client) {
+    let holder;
+    let written;
     const notAdmin = client.db("upload_db");
-    notAdmin.collection("useruploads.files").find({ metadata: userIdForFiles }).toArray().then(value => {
-      client.close();
-      console.log(value)
-      return res.json(value)
-    });
+    const bigBuck = new GridBuck(notAdmin, {
+      bucketName: 'useruploads'
+    }).openDownloadStreamByName(req.param('id'), {
+      start: 0
+    }).pipe(fs.createWriteStream('sampledownloaded.zip'))
+    bigBuck.on('close', () => {
+      return res.json();
+    })
   });
 });
 
 
+//Executes a shell to run "docker run jartest1", run creates a psuedo-container overlaid that runs "jartest1" and returns in stdout, returns stdout as response
+router.get('/tester', (req,res) => {
+  exec('docker run bigdocktest', (err, stdout, stderr) => {
+    if (err) {
+      console.error(`exec error: ${err}`);
+      return;
+    }
+    console.log(stdout);
+    return res.json(stdout)
+  });
+});
 router.post('/files', singleUpload, (req, res) => {
   if (req.file) {
     return res.json({
