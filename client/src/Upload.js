@@ -9,15 +9,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from "@material-ui/core/Grid";
-//import exec from "child_process";
 class Upload extends Component {
   constructor(props) {
     super(props);
     this.state = {
       fileInfo: [],
       files: [],
-      file: '',
-      dockstate: ''
+      file: ''
     }
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -35,17 +33,6 @@ class Upload extends Component {
           this.setState({ files })
         }
       });
-  }
-  dockerTest(){
-    fetch('/api/users/tester',{
-      method: 'GET'
-    })
-        .then(res => res.json())
-        .then(dock => {
-          this.setState({
-            dockstate: dock
-          })
-        });
   }
   fileChanged(event) {
     const f = event.target.files[0];
@@ -151,12 +138,6 @@ class Upload extends Component {
                 marginTop: "10px",
                 display: "inline-block"
               }} variant="outlined" color="Primary" onClick={this.uploadFile.bind(this)}>Upload</Button>
-              <h5>Squid-Simulator Button</h5>
-              <Button style={{
-                marginTop: "20px",
-                display: "inline-block"
-              }} variant="outlined" color="Primary" onClick={this.dockerTest.bind(this)}>Upload</Button>
-              <h5>{this.state.dockstate}</h5>
             </div>
           </div>
         </Grid>
