@@ -39,11 +39,24 @@ class SquidPage extends Component {
       normalizeSBM: true,
       ratioCalculationMethod: false,
       preferredIndexIsotope: "PB_204",
-      loaded: 0
+      loaded: 0,
+      dockstate: ""
     };
 
 
 
+  }
+
+  dockerTest() {
+    fetch('/api/users/tester', {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(dock => {
+        this.setState({
+          dockstate: dock
+        })
+      });
   }
 
   handleselectedPrawnFile(event) {
@@ -249,7 +262,7 @@ class SquidPage extends Component {
 
                 <div className="row justify-content-center m-2" style={{ marginTop: "20px" }}>
                   <Button variant="outlined" color="primary" size="large"
-                    onClick={this.handleUpload}
+                    onClick={this.dockerTest.bind(this)}
                   >
                     Click here to Upload data for processing ... wait for returned
                     results
@@ -257,7 +270,8 @@ class SquidPage extends Component {
                 </div>
                 <div className="row justify-content-center text-center text-danger m-2" style={{ marginTop: "5px" }}>
                   Note: parameter models are currently GA defaults (see Squid app).
-            </div>
+              </div>
+                <h5>{this.state.dockstate}</h5>
 
                 <h4 className="mt-4">
                   <div>

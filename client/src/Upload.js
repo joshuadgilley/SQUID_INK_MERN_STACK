@@ -16,8 +16,7 @@ class Upload extends Component {
     this.state = {
       fileInfo: [],
       files: [],
-      file: '',
-      dockstate: ''
+      file: ''
     }
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -35,17 +34,6 @@ class Upload extends Component {
           this.setState({ files })
         }
       });
-  }
-  dockerTest(){
-    fetch('/api/users/tester',{
-      method: 'GET'
-    })
-        .then(res => res.json())
-        .then(dock => {
-          this.setState({
-            dockstate: dock
-          })
-        });
   }
   fileChanged(event) {
     const f = event.target.files[0];
@@ -155,8 +143,8 @@ class Upload extends Component {
               <Button style={{
                 marginTop: "20px",
                 display: "inline-block"
-              }} variant="outlined" color="Primary" onClick={this.dockerTest.bind(this)}>Upload</Button>
-              <h5>{this.state.dockstate}</h5>
+              }} variant="outlined" color="Primary">Upload</Button>
+
             </div>
           </div>
         </Grid>
