@@ -15,13 +15,13 @@ npm run start
 <br>
 <br>
 <br>
-<b>TO RUN USING DOCKER</b>
+<b>CREATE DOCKER IMAGE</b>
 <br>
-docker-compose up --build --remove-orphans
+cd dockerTester
 <br>
-or
+docker build .
 <br>
-docker-compose up
+docker tag [image tag from "docker build ." ouput] bigdocktester
 <br>
 <br>
 <br>
