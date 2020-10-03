@@ -169,14 +169,15 @@ const upload = multer({ storage });
 
 const singleUpload = multer({ storage: storage }).single('file');
 
+
 router.get('/files/:id', (req, res) => {
   MongoClient.connect(dbs, function (err, client) {
     const notAdmin = client.db("upload_db");
-    notAdmin.collection("useruploads.files").find({metadata: req.param('id')}).toArray().then(value => {
+    notAdmin.collection("useruploads.files").find({ metadata: req.param('id') }).toArray().then(value => {
       client.close();
       return res.json(value)
+    });
   });
-});
 });
 
 //Attempting to retrieve full file from sharded collections
