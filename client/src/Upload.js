@@ -17,7 +17,8 @@ class Upload extends Component {
       fileInfo: [],
       files: [],
       file: '',
-      dockstate: ''
+      dockstate: '',
+      responses : ''
     }
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -35,6 +36,24 @@ class Upload extends Component {
           this.setState({ files })
         }
       });
+  }
+  webTest(){
+    const { user } = this.props.auth;
+    console.log(this.props.auth.user.id)
+    fetch('/api/users/tester/web/' + user.id,{
+      method: 'POST',
+      body: this.props.auth.user.id
+    })
+        .then(res => res.json())
+        .then(resp => {
+          var split = resp.split("\n")
+          let final = split[4]
+          final = final.replace(/{"body":"/, "")
+          final = final.replace(/"}/, "")
+          this.setState({
+            responses: final
+          })
+        });
   }
   dockerTest(){
     fetch('/api/users/tester',{
@@ -157,6 +176,12 @@ class Upload extends Component {
                 display: "inline-block"
               }} variant="outlined" color="Primary" onClick={this.dockerTest.bind(this)}>Upload</Button>
               <h5>{this.state.dockstate}</h5>
+              <h5>Web Service Simulator</h5>
+              <Button style={{
+                marginTop: "20px",
+                display: "inline-block"
+              }} variant="outlined" color="Primary" onClick={this.webTest.bind(this)}>Upload</Button>
+              <h5>{this.state.responses}</h5>
             </div>
           </div>
         </Grid>
