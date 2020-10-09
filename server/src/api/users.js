@@ -171,9 +171,10 @@ const upload = multer({ storage });
 const singleUpload = multer({ storage: storage }).single('file');
 
 router.get('/files/:id', (req, res) => {
+  console.log(req.params)
   MongoClient.connect(dbs, function (err, client) {
-    const notAdmin = client.db("upload_db");
-    notAdmin.collection("useruploads.files").find({metadata: req.param('id')}).toArray().then(value => {
+    const notAdmin = client.db("<dbname>");
+    notAdmin.collection("useruploads.files").find({ metadata: req.param('id') }).toArray().then(value => {
       client.close();
       return res.json(value)
   });

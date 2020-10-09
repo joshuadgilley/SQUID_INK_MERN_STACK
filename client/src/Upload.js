@@ -37,6 +37,7 @@ class Upload extends Component {
         }
       });
   }
+
   webTest(){
     const { user } = this.props.auth;
     console.log(this.props.auth.user.id)
@@ -182,6 +183,7 @@ class Upload extends Component {
                 display: "inline-block"
               }} variant="outlined" color="Primary" onClick={this.webTest.bind(this)}>Upload</Button>
               <h5>{this.state.responses}</h5>
+              }} variant="outlined" color="Primary">Upload</Button>
             </div>
           </div>
         </Grid>
