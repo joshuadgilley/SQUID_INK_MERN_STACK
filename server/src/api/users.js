@@ -1,6 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const GridBuck = require('mongodb').GridFSBucket;
 const ObjectID = require('mongodb').ObjectID;
+const axios = require('axios');
 const express = require("express");
 const router = express.Router();
 const fs = require('fs');
@@ -169,7 +170,6 @@ const upload = multer({ storage });
 
 const singleUpload = multer({ storage: storage }).single('file');
 
-
 router.get('/files/:id', (req, res) => {
   console.log(req.params)
   MongoClient.connect(dbs, function (err, client) {
@@ -177,8 +177,8 @@ router.get('/files/:id', (req, res) => {
     notAdmin.collection("useruploads.files").find({ metadata: req.param('id') }).toArray().then(value => {
       client.close();
       return res.json(value)
-    });
   });
+});
 });
 
 //Attempting to retrieve full file from sharded collections
@@ -199,7 +199,15 @@ router.get('/reform/:id', (req, res) => {
   });
 });
 
-
+router.post('/tester/web/:id', (req,res) => {
+  console.log(req.body)
+  axios.post('http://192.168.99.100:8000/app', {
+    body: req.param('id')
+  }).then(function(response) {
+    console.log(response.data)
+    return res.json(response.data)
+  })
+});
 //Executes a shell to run "docker run jartest1", run creates a psuedo-container overlaid that runs "jartest1" and returns in stdout, returns stdout as response
 router.get('/tester', (req,res) => {
   exec('docker run bigdocktest', (err, stdout, stderr) => {
